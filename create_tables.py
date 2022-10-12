@@ -23,13 +23,39 @@ def create_database():
 
     return cur, conn
 
-# Dropping tables using the queries in 'create_table_queries' list.
+# Dropping tables using the queries in 'drop_table_queries' list.
 
 def drop_tables(cur, conn):
+    for query in drop_table_queries:
+        cur.execute(query)
+        conn.commit()
+
+# Creating tables using the queries in 'create_table_queries' list.
+
+def create_tables(cur, conn):
     for query in create_table_queries:
         cur.execute(query)
         conn.commit()
 
+def main():
+
+    """"
+    - Drop tables if they exist and creates the sparkify database.
+    - Establish connection with the Sparkify Database and gets cursor to it.
+    - Drops all the tables
+    - Creates all the tables
+    - Closes the connection
+    """
+
+    cur, conn = create_database()
+
+    drop_tables(cur, conn)
+    create_tables(cur, conn)
+
+    conn.close()
+
+if __name__ == '__main__':
+    main()
 
 
          
